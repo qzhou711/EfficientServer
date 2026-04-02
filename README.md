@@ -28,6 +28,37 @@ bash setup.sh --all
 |--------|-------------|
 | `zsh` | Install zsh and set it as the default shell |
 | `ohmyzsh` | Install oh-my-zsh with plugins (autosuggestions, syntax-highlighting) and powerlevel10k theme |
+| `conda` | Install Miniconda and configure package cache / envs directories |
+
+### conda — custom cache path
+
+By default conda stores package tarballs in `~/.conda/pkgs` and environments in `~/miniconda3/envs`.
+On a server with a dedicated data disk you can redirect both:
+
+```bash
+CONDA_PKGS_DIR=/data/conda/pkgs \
+CONDA_ENVS_DIR=/data/conda/envs \
+bash setup.sh conda
+```
+
+This writes the following to `~/.condarc`:
+
+```yaml
+pkgs_dirs:
+  - /data/conda/pkgs
+envs_dirs:
+  - /data/conda/envs
+auto_activate_base: false
+show_channel_urls: true
+```
+
+You can also edit `~/.condarc` manually at any time, or use `conda config` commands:
+
+```bash
+conda config --set pkgs_dirs /new/path/pkgs
+conda config --add envs_dirs /new/path/envs
+conda config --show                          # view all settings
+```
 
 ## Adding a New Module
 
